@@ -1,0 +1,68 @@
+/* Base Styles */
+body {
+  background-color: #f4f7f6;
+  margin: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Search Bar Styling - UX Requirement */
+.search-bar {
+  width: 100%;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Responsive Grid for Desktop and Mobile */
+.recipe-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr; /* Mobile view: 1 column */
+}
+
+@media (min-width: 768px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tablet view: 2 columns */
+  }
+}
+
+@media (min-width: 1024px) {
+  .recipe-grid {
+    grid-template-columns: repeat(3, 1fr); /* Desktop view: 3 columns */
+  }
+}
+
+/* Recipe Card Styling */
+.recipe-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cuisine-tag {
+  background: #e1f5fe;
+  color: #0288d1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
