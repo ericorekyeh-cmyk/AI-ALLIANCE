@@ -1,0 +1,138 @@
+/* Add Recipe Page Styles */
+.add-recipe-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.add-recipe-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--gold) 0%, #E6C850 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+}
+
+.add-recipe-header h2 {
+  color: var(--green);
+  font-size: 2em;
+  margin: 0 0 10px 0;
+}
+
+.add-recipe-header p {
+  color: var(--green);
+  font-size: 1.1em;
+  margin: 0;
+  font-weight: 500;
+}
+
+.add-recipe-page .add-recipe-form {
+  margin-bottom: 30px;
+  background: var(--white);
+  border: 3px solid var(--gold);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.15);
+}
+
+.add-recipe-page .add-recipe-form h3 {
+  color: var(--green);
+  font-size: 1.5em;
+  margin-top: 0;
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 15px;
+}
+
+.add-recipe-page .add-recipe-form label {
+  color: var(--green);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.add-recipe-page .add-recipe-form input,
+.add-recipe-page .add-recipe-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background-color: var(--white);
+  color: var(--green);
+  transition: all 0.25s ease;
+}
+
+.add-recipe-page .add-recipe-form input:focus,
+.add-recipe-page .add-recipe-form textarea:focus {
+  outline: none;
+  border-color: var(--green-light);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+  background-color: #FFFEF2;
+}
+
+.add-recipe-page .add-recipe-form button {
+  width: 100%;
+  background-color: var(--gold);
+  color: var(--green);
+  border: 2px solid var(--gold);
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.05em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 15px;
+}
+
+.add-recipe-page .add-recipe-form button:hover {
+  background-color: var(--green);
+  color: var(--gold);
+  border-color: var(--green);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+  transform: translateY(-2px);
+}
+
+.back-to-home {
+  display: block;
+  margin: 30px auto;
+  background-color: var(--green-light);
+  color: var(--white);
+  border: 2px solid var(--green-light);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.back-to-home:hover {
+  background-color: var(--gold);
+  color: var(--green);
+  border-color: var(--gold);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+@media (max-width: 768px) {
+  .add-recipe-page {
+    padding: 20px 0;
+  }
+
+  .add-recipe-header {
+    padding: 20px;
+  }
+
+  .add-recipe-header h2 {
+    font-size: 1.5em;
+  }
+
+  .add-recipe-page .add-recipe-form {
+    padding: 20px;
+  }
+}

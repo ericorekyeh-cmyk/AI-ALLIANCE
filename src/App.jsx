@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import AddRecipe from './AddRecipe';
+import AddRecipePage from './AddRecipePage';
 import FeaturedRecipes from './FeaturedRecipes';
 import RecipeDetail from './RecipeDetail';
 import Navigation from './Navigation';
 import RecipesPage from './RecipesPage';
 import BlogPage from './BlogPage';
-import { seedSampleRecipes } from './seedRecipes';
 import './App.css';
 
 function AppContent() {
@@ -60,14 +60,6 @@ function AppContent() {
         <FeaturedRecipes />
 
         <div className="additional-content">
-          <div className="seed-button-container">
-            <button onClick={seedSampleRecipes} className="seed-button">
-              + Load Sample Recipes
-            </button>
-          </div>
-
-          <AddRecipe onRecipeAdded={fetchRecipes} />
-
           <input
             type="text"
             placeholder="Search recipes or cuisines..."
@@ -126,6 +118,7 @@ function App() {
         <Route path="/recipe/:id" element={<RecipeDetail />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/add-recipe" element={<AddRecipePage onRecipeAdded={() => {}} />} />
       </Routes>
     </Router>
   );

@@ -3,25 +3,25 @@ import { supabase } from './supabaseClient';
 export async function seedSampleRecipes() {
   const sampleRecipes = [
     {
-      title: 'Margherita Pizza',
-      description: 'Classic Italian pizza with fresh mozzarella, basil, and tomato sauce on a crispy crust.',
-      cuisine_type: 'Italian',
-      image_url: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=500&h=400&fit=crop',
-      recipe_url: 'https://www.example.com/margherita-pizza'
+      title: 'Heirloom Tomato Tart',
+      description: 'A delicate buttery crust topped with sun-ripened tomatoes and aromatic garden herbs, evoking the spirit of a rustic summer afternoon.',
+      cuisine_type: 'French',
+      image_url: 'https://images.unsplash.com/photo-1605450893063-a8b9d9ecc0a0?w=600&h=500&fit=crop',
+      recipe_url: 'https://www.example.com/heirloom-tomato-tart'
     },
     {
-      title: 'Grilled Salmon',
-      description: 'Perfectly grilled salmon fillet with lemon and herbs, served with fresh vegetables.',
-      cuisine_type: 'Seafood',
-      image_url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=400&fit=crop',
-      recipe_url: 'https://www.example.com/grilled-salmon'
+      title: 'Artisan Sourdough',
+      description: 'Master the art of the perfect crust and airy crumb with our signature sourdough guide, featuring locally sourced ancient grains.',
+      cuisine_type: 'Bakery',
+      image_url: 'https://images.unsplash.com/photo-1599599810694-b5ac4dd5ccf1?w=600&h=500&fit=crop',
+      recipe_url: 'https://www.example.com/artisan-sourdough'
     },
     {
-      title: 'Chocolate Cake',
-      description: 'Rich and decadent chocolate cake with smooth chocolate frosting and fresh berries on top.',
+      title: 'Wild Berry Pavlova',
+      description: 'A cloud-like meringue base paired with seasonal forest berries and silky double cream. An elegant finale to any artisanal meal.',
       cuisine_type: 'Dessert',
-      image_url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&h=400&fit=crop',
-      recipe_url: 'https://www.example.com/chocolate-cake'
+      image_url: 'https://images.unsplash.com/photo-1604080853949-b92f50e00b7f?w=600&h=500&fit=crop',
+      recipe_url: 'https://www.example.com/wild-berry-pavlova'
     }
   ];
 

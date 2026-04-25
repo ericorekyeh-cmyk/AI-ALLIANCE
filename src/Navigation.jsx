@@ -31,6 +31,14 @@ function Navigation() {
             BLOG
           </Link>
         </li>
+        <li className="nav-item">
+          <Link 
+            to="/add-recipe" 
+            className={`nav-link ${location.pathname === '/add-recipe' ? 'active' : ''}`}
+          >
+            ADD YOUR OWN
+          </Link>
+        </li>
       </ul>
     </nav>
   );

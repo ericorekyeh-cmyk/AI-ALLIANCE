@@ -130,3 +130,11 @@
   padding: 40px 20px;
   font-size: 1.2em;
 }
+
+.loading-message {
+  text-align: center;
+  color: var(--gold);
+  padding: 40px 20px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
