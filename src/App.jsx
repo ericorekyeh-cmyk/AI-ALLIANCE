@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import AddRecipe from './AddRecipe';
 import AddRecipePage from './AddRecipePage';
@@ -13,6 +13,7 @@ import './App.css';
 function AppContent() {
   const [recipes, setRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchRecipes();
@@ -80,16 +81,13 @@ function AppContent() {
                   <span className="cuisine-tag">{recipe.cuisine_type || 'N/A'}</span>
                   <p>{recipe.description}</p>
                   <div className="recipe-actions">
-                    {recipe.recipe_url && (
-                      <a 
-                        href={recipe.recipe_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="view-recipe-btn"
-                      >
-                        View Recipe
-                      </a>
-                    )}
+                    <button
+                      className="view-recipe-btn"
+                      type="button"
+                      onClick={() => navigate(`/recipe/${recipe.id}`)}
+                    >
+                      View Recipe
+                    </button>
                     <button
                       className="delete-btn"
                       type="button"

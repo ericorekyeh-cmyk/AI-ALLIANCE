@@ -6,7 +6,7 @@ function AddRecipe({ onRecipeAdded }) {
   const [description, setDescription] = useState('');
   const [cuisineType, setCuisineType] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [recipeUrl, setRecipeUrl] = useState('');
+  const [recipeContent, setRecipeContent] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   const handleImageChange = (event) => {
@@ -57,7 +57,7 @@ function AddRecipe({ onRecipeAdded }) {
           description, 
           cuisine_type: cuisineType,
           image_url: imageUrl,
-          recipe_url: recipeUrl
+          recipe_content: recipeContent
         }]);
 
       if (error) {
@@ -71,7 +71,7 @@ function AddRecipe({ onRecipeAdded }) {
       setDescription('');
       setCuisineType('');
       setImageFile(null);
-      setRecipeUrl('');
+      setRecipeContent('');
       setIsUploading(false);
       onRecipeAdded();
     } catch (error) {
@@ -125,12 +125,12 @@ function AddRecipe({ onRecipeAdded }) {
       </label>
 
       <label>
-        Recipe Link
-        <input
-          type="url"
-          placeholder="https://example.com/recipe"
-          value={recipeUrl}
-          onChange={(event) => setRecipeUrl(event.target.value)}
+        Recipe Instructions
+        <textarea
+          placeholder="Type your recipe instructions here... (ingredients, steps, cooking time, etc.)"
+          value={recipeContent}
+          onChange={(event) => setRecipeContent(event.target.value)}
+          className="recipe-textarea"
         />
       </label>
 

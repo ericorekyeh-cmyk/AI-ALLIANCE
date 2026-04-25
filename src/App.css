@@ -227,6 +227,11 @@ body {
   margin: 8px 0 16px 0;
 }
 
+.recipe-textarea {
+  min-height: 200px !important;
+  resize: vertical;
+}
+
 .add-recipe-form input:focus,
 .add-recipe-form textarea:focus {
   outline: none;

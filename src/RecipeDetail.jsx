@@ -76,15 +76,11 @@ function RecipeDetail() {
             <p>{recipe.description}</p>
           </div>
 
-          {recipe.recipe_url && (
-            <a 
-              href={recipe.recipe_url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="view-recipe-link"
-            >
-              View Full Recipe →
-            </a>
+          {recipe.recipe_content && (
+            <div className="recipe-detail-instructions">
+              <h2>Recipe</h2>
+              <p>{recipe.recipe_content}</p>
+            </div>
           )}
 
           <button onClick={handleDelete} className="delete-btn">Delete Recipe</button>
