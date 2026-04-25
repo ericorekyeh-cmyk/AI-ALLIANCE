@@ -5,10 +5,75 @@ body {
   color: var(--green);
 }
 
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Gold, White, Green Color Scheme */
+  --gold: #D4AF37;
+  --green: #2D5016;
+  --green-light: #4CAF50;
+  --green-dark: #1a3a0f;
+  --white: #FFFFFF;
+  --gray-light: #F5F5F5;
+  --gray-dark: #333333;
+
+  color-scheme: light;
+  color: var(--green);
+  background-color: var(--white);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.container h1 {
+  text-align: center;
+  color: var(--green);
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+/* Seed Button Container */
+.seed-button-container {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.seed-button {
+  background-color: var(--gold);
+  color: var(--green);
+  border: 2px solid var(--gold);
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.seed-button:hover {
+  background-color: var(--green);
+  color: var(--gold);
+  border-color: var(--green);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Additional Content Section */
+.additional-content {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 2px solid var(--gold);
 }
 
 /* Search Bar Styling - UX Requirement */

@@ -50,7 +50,8 @@ function FeaturedRecipes() {
               <div className="featured-overlay">
                 <h3>{recipe.title}</h3>
                 <p className="featured-cuisine">{recipe.cuisine_type || 'N/A'}</p>
-                <p className="click-hint">Click to view recipe →</p>
+                <p className="featured-description">{recipe.description}</p>
+                <p className="click-hint">View Recipe →</p>
               </div>
             </div>
           ))

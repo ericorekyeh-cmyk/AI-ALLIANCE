@@ -4,6 +4,10 @@ import { supabase } from './supabaseClient';
 import AddRecipe from './AddRecipe';
 import FeaturedRecipes from './FeaturedRecipes';
 import RecipeDetail from './RecipeDetail';
+import Navigation from './Navigation';
+import RecipesPage from './RecipesPage';
+import BlogPage from './BlogPage';
+import { seedSampleRecipes } from './seedRecipes';
 import './App.css';
 
 function AppContent() {
@@ -51,54 +55,64 @@ function AppContent() {
     <>
       <div className="container">
         <h1>Online Recipe Sharing Platform</h1>
+        <Navigation />
 
         <FeaturedRecipes />
 
-        <AddRecipe onRecipeAdded={fetchRecipes} />
+        <div className="additional-content">
+          <div className="seed-button-container">
+            <button onClick={seedSampleRecipes} className="seed-button">
+              + Load Sample Recipes
+            </button>
+          </div>
 
-      <input
-        type="text"
-        placeholder="Search recipes or cuisines..."
-        className="search-bar"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        aria-label="Search recipes"
-      />
+          <AddRecipe onRecipeAdded={fetchRecipes} />
 
-      <div className="recipe-grid">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="recipe-card">
-              {recipe.image_url && (
-                <img src={recipe.image_url} alt={recipe.title} className="recipe-image" />
-              )}
-              <h3>{recipe.title}</h3>
-              <span className="cuisine-tag">{recipe.cuisine_type || 'N/A'}</span>
-              <p>{recipe.description}</p>
-              <div className="recipe-actions">
-                {recipe.recipe_url && (
-                  <a 
-                    href={recipe.recipe_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="view-recipe-btn"
-                  >
-                    View Recipe
-                  </a>
-                )}
-                <button
-                  className="delete-btn"
-                  type="button"
-                  onClick={() => handleDeleteRecipe(recipe.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No recipes found matching your search.</p>
-        )}
+          <input
+            type="text"
+            placeholder="Search recipes or cuisines..."
+            className="search-bar"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            aria-label="Search recipes"
+          />
+
+          <div className="recipe-grid">
+            {filteredRecipes.length > 0 ? (
+              filteredRecipes.map((recipe) => (
+                <div key={recipe.id} className="recipe-card">
+                  {recipe.image_url && (
+                    <img src={recipe.image_url} alt={recipe.title} className="recipe-image" />
+                  )}
+                  <h3>{recipe.title}</h3>
+                  <span className="cuisine-tag">{recipe.cuisine_type || 'N/A'}</span>
+                  <p>{recipe.description}</p>
+                  <div className="recipe-actions">
+                    {recipe.recipe_url && (
+                      <a 
+                        href={recipe.recipe_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="view-recipe-btn"
+                      >
+                        View Recipe
+                      </a>
+                    )}
+                    <button
+                      className="delete-btn"
+                      type="button"
+                      onClick={() => handleDeleteRecipe(recipe.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No recipes found matching your search.</p>
+            )}
+          </div>
+        </div>
       </div>
       </>
     );
@@ -110,6 +124,8 @@ function App() {
       <Routes>
         <Route path="/" element={<AppContent />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
+        <Route path="/recipes" element={<RecipesPage />} />
+        <Route path="/blog" element={<BlogPage />} />
       </Routes>
     </Router>
   );
