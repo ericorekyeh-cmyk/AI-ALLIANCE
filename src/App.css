@@ -66,3 +66,62 @@ body {
   cursor: pointer;
   margin-top: 10px;
 }
+
+.add-recipe-form {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+.add-recipe-form h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.add-recipe-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.add-recipe-form input,
+.add-recipe-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8dde1;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+.add-recipe-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.add-recipe-form button {
+  margin-top: 16px;
+  background-color: #2d8cff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.add-recipe-form button:hover {
+  background-color: #1f75dc;
+}
+
+.recipe-card h3 {
+  margin-top: 0;
+}
+
+.recipe-card p {
+  margin: 14px 0 0;
+  line-height: 1.6;
+}
