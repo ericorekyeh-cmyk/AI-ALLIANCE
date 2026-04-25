@@ -1,0 +1,127 @@
+/* Recipe Detail Page */
+.recipe-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.back-btn {
+  background-color: var(--gold);
+  color: var(--green);
+  border: 2px solid var(--gold);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  margin-bottom: 30px;
+  transition: all 0.25s ease;
+}
+
+.back-btn:hover {
+  background-color: var(--green);
+  color: var(--gold);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.recipe-detail-card {
+  background: var(--white);
+  border: 3px solid var(--gold);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.2);
+}
+
+.recipe-detail-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-bottom: 3px solid var(--gold);
+}
+
+.recipe-detail-content {
+  padding: 40px;
+}
+
+.recipe-detail-content h1 {
+  color: var(--green);
+  font-size: 2.5em;
+  margin: 0 0 15px 0;
+  line-height: 1.2;
+}
+
+.recipe-detail-content .cuisine-tag {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 1em;
+  padding: 8px 16px;
+}
+
+.recipe-detail-description {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: var(--gray-light);
+  border-left: 5px solid var(--gold);
+  border-radius: 8px;
+}
+
+.recipe-detail-description h2 {
+  color: var(--green);
+  margin-top: 0;
+  font-size: 1.3em;
+}
+
+.recipe-detail-description p {
+  color: var(--green);
+  line-height: 1.8;
+  font-size: 1.05em;
+  margin: 0;
+}
+
+.view-recipe-link {
+  display: inline-block;
+  background-color: var(--green-light);
+  color: var(--white);
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05em;
+  transition: all 0.25s ease;
+  margin: 20px 0;
+  border: 2px solid var(--green-light);
+}
+
+.view-recipe-link:hover {
+  background-color: var(--gold);
+  color: var(--green);
+  border-color: var(--gold);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+}
+
+.recipe-detail-content .delete-btn {
+  display: block;
+  margin-top: 30px;
+  width: 100%;
+  padding: 12px;
+}
+
+@media (max-width: 768px) {
+  .recipe-detail-image {
+    height: 250px;
+  }
+
+  .recipe-detail-content {
+    padding: 20px;
+  }
+
+  .recipe-detail-content h1 {
+    font-size: 1.8em;
+  }
+
+  .recipe-detail-description {
+    padding: 15px;
+    margin: 20px 0;
+  }
+}

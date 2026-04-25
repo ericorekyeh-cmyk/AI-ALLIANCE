@@ -5,13 +5,21 @@ function AddRecipe({ onRecipeAdded }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [cuisineType, setCuisineType] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [recipeUrl, setRecipeUrl] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const { error } = await supabase
       .from('recipes')
-      .insert([{ title, description, cuisine_type: cuisineType }]);
+      .insert([{ 
+        title, 
+        description, 
+        cuisine_type: cuisineType,
+        image_url: imageUrl,
+        recipe_url: recipeUrl
+      }]);
 
     if (error) {
       alert(`Error: ${error.message}`);
@@ -22,6 +30,8 @@ function AddRecipe({ onRecipeAdded }) {
     setTitle('');
     setDescription('');
     setCuisineType('');
+    setImageUrl('');
+    setRecipeUrl('');
     onRecipeAdded();
   };
 
@@ -56,6 +66,26 @@ function AddRecipe({ onRecipeAdded }) {
           placeholder="Cuisine type"
           value={cuisineType}
           onChange={(event) => setCuisineType(event.target.value)}
+        />
+      </label>
+
+      <label>
+        Image URL
+        <input
+          type="url"
+          placeholder="https://example.com/meal-image.jpg"
+          value={imageUrl}
+          onChange={(event) => setImageUrl(event.target.value)}
+        />
+      </label>
+
+      <label>
+        Recipe Link
+        <input
+          type="url"
+          placeholder="https://example.com/recipe"
+          value={recipeUrl}
+          onChange={(event) => setRecipeUrl(event.target.value)}
         />
       </label>
 
