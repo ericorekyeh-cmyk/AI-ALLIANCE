@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
-import { seedSampleRecipes } from './seedRecipes';
 import './FeaturedRecipes.css';
 
 function FeaturedRecipes() {
@@ -79,24 +78,19 @@ function FeaturedRecipes() {
     }
   };
 
-  const handleImageClick = (id) => {
+  const handleViewRecipe = (id) => {
     navigate(`/recipe/${id}`);
   };
 
   return (
     <div className="featured-section">
-      <h2>Featured Recipes</h2>
       {isSeeding ? (
         <div className="loading-message">Loading featured recipes...</div>
       ) : (
         <div className="featured-grid">
           {featuredRecipes.length > 0 ? (
             featuredRecipes.map((recipe) => (
-              <div 
-                key={recipe.id} 
-                className="featured-card"
-                onClick={() => handleImageClick(recipe.id)}
-              >
+              <div key={recipe.id} className="featured-card">
                 {recipe.image_url && (
                   <img 
                     src={recipe.image_url} 
@@ -104,11 +98,15 @@ function FeaturedRecipes() {
                     className="featured-image"
                   />
                 )}
-                <div className="featured-overlay">
+                <div className="featured-content">
                   <h3>{recipe.title}</h3>
-                  <p className="featured-cuisine">{recipe.cuisine_type || 'N/A'}</p>
                   <p className="featured-description">{recipe.description}</p>
-                  <p className="click-hint">View Recipe →</p>
+                  <button 
+                    className="view-recipe-btn"
+                    onClick={() => handleViewRecipe(recipe.id)}
+                  >
+                    View Recipe
+                  </button>
                 </div>
               </div>
             ))

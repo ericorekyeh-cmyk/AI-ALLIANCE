@@ -5,34 +5,79 @@ function AddRecipe({ onRecipeAdded }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [cuisineType, setCuisineType] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   const [recipeUrl, setRecipeUrl] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  const uploadImage = async (file) => {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('recipe-images')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('recipe-images')
+        .getPublicUrl(fileName);
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Image upload error:', error);
+      throw new Error(`Image upload failed: ${error.message}`);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsUploading(true);
 
-    const { error } = await supabase
-      .from('recipes')
-      .insert([{ 
-        title, 
-        description, 
-        cuisine_type: cuisineType,
-        image_url: imageUrl,
-        recipe_url: recipeUrl
-      }]);
+    try {
+      let imageUrl = '';
 
-    if (error) {
+      // Upload image if selected
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
+      const { error } = await supabase
+        .from('recipes')
+        .insert([{ 
+          title, 
+          description, 
+          cuisine_type: cuisineType,
+          image_url: imageUrl,
+          recipe_url: recipeUrl
+        }]);
+
+      if (error) {
+        alert(`Error: ${error.message}`);
+        setIsUploading(false);
+        return;
+      }
+
+      alert('Recipe added successfully!');
+      setTitle('');
+      setDescription('');
+      setCuisineType('');
+      setImageFile(null);
+      setRecipeUrl('');
+      setIsUploading(false);
+      onRecipeAdded();
+    } catch (error) {
       alert(`Error: ${error.message}`);
-      return;
+      setIsUploading(false);
     }
-
-    alert('Recipe added!');
-    setTitle('');
-    setDescription('');
-    setCuisineType('');
-    setImageUrl('');
-    setRecipeUrl('');
-    onRecipeAdded();
   };
 
   return (
@@ -68,15 +113,15 @@ function AddRecipe({ onRecipeAdded }) {
           onChange={(event) => setCuisineType(event.target.value)}
         />
       </label>
-
+      
       <label>
-        Image URL
+        Recipe Image
         <input
-          type="url"
-          placeholder="https://example.com/meal-image.jpg"
-          value={imageUrl}
-          onChange={(event) => setImageUrl(event.target.value)}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
         />
+        {imageFile && <p className="file-selected">✓ {imageFile.name} selected</p>}
       </label>
 
       <label>
@@ -89,7 +134,9 @@ function AddRecipe({ onRecipeAdded }) {
         />
       </label>
 
-      <button type="submit">Add Recipe</button>
+      <button type="submit" disabled={isUploading}>
+        {isUploading ? 'Uploading...' : 'Add Recipe'}
+      </button>
     </form>
   );
 }
