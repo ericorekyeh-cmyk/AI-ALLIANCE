@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { supabase } from './supabaseClient';
 import AddRecipe from './AddRecipe';
 import './App.css';
@@ -11,47 +11,68 @@ function App() {
     fetchRecipes();
   }, []);
 
-  async function fetchRecipes() {
+  const fetchRecipes = async () => {
     const { data, error } = await supabase.from('recipes').select('*');
-    if (error) console.error('Error:', error);
-    else setRecipes(data);
-  }
-
-  async function deleteRecipe(id) {
-    if (window.confirm("Delete this recipe?")) {
-      await supabase.from('recipes').delete().eq('id', id);
-      fetchRecipes();
+    if (error) {
+      console.error('Fetch recipes error:', error);
+      return;
     }
-  }
 
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    recipe.cuisine_type?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    setRecipes(data ?? []);
+  };
+
+  const handleDeleteRecipe = async (id) => {
+    if (!window.confirm('Delete this recipe?')) {
+      return;
+    }
+
+    const { error } = await supabase.from('recipes').delete().eq('id', id);
+    if (error) {
+      console.error('Delete recipe error:', error);
+      return;
+    }
+
+    fetchRecipes();
+  };
+
+  const filteredRecipes = useMemo(() => {
+    const normalizedSearch = searchTerm.toLowerCase();
+    return recipes.filter((recipe) => {
+      const title = recipe.title?.toLowerCase() ?? '';
+      const cuisine = recipe.cuisine_type?.toLowerCase() ?? '';
+      return title.includes(normalizedSearch) || cuisine.includes(normalizedSearch);
+    });
+  }, [recipes, searchTerm]);
 
   return (
     <div className="container">
       <h1>Online Recipe Sharing Platform</h1>
 
-      {/* CRUD Requirement: Create */}
       <AddRecipe onRecipeAdded={fetchRecipes} />
 
-      {/* UX Requirement: Filtering */}
       <input
         type="text"
         placeholder="Search recipes or cuisines..."
         className="search-bar"
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+        aria-label="Search recipes"
       />
 
       <div className="recipe-grid">
         {filteredRecipes.length > 0 ? (
-          filteredRecipes.map(recipe => (
+          filteredRecipes.map((recipe) => (
             <div key={recipe.id} className="recipe-card">
               <h3>{recipe.title}</h3>
-              <span className="cuisine-tag">{recipe.cuisine_type}</span>
+              <span className="cuisine-tag">{recipe.cuisine_type || 'N/A'}</span>
               <p>{recipe.description}</p>
-              <button className="delete-btn" onClick={() => deleteRecipe(recipe.id)}>Delete</button>
+              <button
+                className="delete-btn"
+                type="button"
+                onClick={() => handleDeleteRecipe(recipe.id)}
+              >
+                Delete
+              </button>
             </div>
           ))
         ) : (
