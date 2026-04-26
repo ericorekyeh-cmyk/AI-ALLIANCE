@@ -13,7 +13,6 @@
 
   color-scheme: light;
   color: var(--green);
-  background-color: var(--white);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -32,7 +31,10 @@ a:hover {
 
 body {
   margin: 0;
-  background-color: var(--white);
+  background-image: url('/vegetables-bg.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--green);
   min-width: 320px;
   min-height: 100vh;
