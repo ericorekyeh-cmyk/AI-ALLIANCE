@@ -13,22 +13,29 @@ function FeaturedRecipes() {
   }, []);
 
   const fetchFeaturedRecipes = async () => {
-    const { data, error } = await supabase
-      .from('recipes')
-      .select('*')
-      .limit(3);
+    try {
+      const { data, error } = await supabase
+        .from('recipes')
+        .select('*')
+        .limit(3);
 
-    if (error) {
-      console.error('Fetch featured recipes error:', error);
-      return;
-    }
+      if (error) {
+        console.error('Fetch featured recipes error:', error);
+        console.error('Error details:', error.message, error.code);
+        return;
+      }
 
-    // If no recipes exist, auto-seed them
-    if (!data || data.length === 0) {
-      setIsSeeding(true);
-      await autoSeedRecipes();
-    } else {
-      setFeaturedRecipes(data);
+      // If no recipes exist, auto-seed them
+      if (!data || data.length === 0) {
+        console.log('No recipes found, starting auto-seed...');
+        setIsSeeding(true);
+        await autoSeedRecipes();
+      } else {
+        console.log('Found recipes:', data);
+        setFeaturedRecipes(data);
+      }
+    } catch (err) {
+      console.error('Unexpected error in fetchFeaturedRecipes:', err);
     }
   };
 
@@ -111,7 +118,18 @@ function FeaturedRecipes() {
               </div>
             ))
           ) : (
-            <p className="no-featured">No recipes yet. Add one to get started!</p>
+            <div className="no-featured-container">
+              <p className="no-featured">No recipes yet. Add one to get started!</p>
+              <button 
+                className="seed-button"
+                onClick={() => {
+                  setIsSeeding(true);
+                  autoSeedRecipes();
+                }}
+              >
+                Load Sample Recipes
+              </button>
+            </div>
           )}
         </div>
       )}
