@@ -33,11 +33,30 @@ function RecipeDetail() {
   const parseRecipeContent = (content) => {
     if (!content) return { ingredients: [], instructions: '' };
 
-    const ingredientsMatch = content.match(/Ingredients?:([\s\S]*?)(?:Method|Instructions|$)/i);
-    const instructionsMatch = content.match(/(?:Method|Instructions):([\s\S]*?)$/i);
+    // Try to parse structured content first
+    const ingredientsMatch = content.match(/Ingredients?:?\s*([\s\S]*?)(?:Method|Instructions|Directions|Steps|$)/i);
+    const instructionsMatch = content.match(/(?:Method|Instructions|Directions|Steps):?\s*([\s\S]*?)$/i);
 
-    const ingredients = ingredientsMatch ? ingredientsMatch[1].trim().split('\n').filter(line => line.trim()) : [];
-    const instructions = instructionsMatch ? instructionsMatch[1].trim() : '';
+    let ingredients = [];
+    let instructions = '';
+
+    if (ingredientsMatch) {
+      const ingredientText = ingredientsMatch[1].trim();
+      // Split by newlines and filter empty lines and lines that don't start with ingredient markers
+      ingredients = ingredientText
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line && line.length > 0 && !line.match(/^(Method|Instructions|Directions|Steps):/i))
+        .slice(0, 50); // Limit to 50 ingredients
+    }
+
+    if (instructionsMatch) {
+      instructions = instructionsMatch[1].trim();
+    }
+
+    console.log('Raw recipe content:', content);
+    console.log('Parsed ingredients count:', ingredients.length);
+    console.log('Has instructions:', !!instructions);
 
     return { ingredients, instructions };
   };
@@ -92,20 +111,18 @@ function RecipeDetail() {
             <p>{recipe.description}</p>
           </div>
 
-          {recipe.recipe_content && (
+          {recipe.recipe_content ? (
             <>
-              <div className="recipe-ingredients">
-                <h2>Ingredients</h2>
-                <ul>
-                  {parsedContent.ingredients.length > 0 ? (
-                    parsedContent.ingredients.map((ingredient, index) => (
+              {parsedContent.ingredients && parsedContent.ingredients.length > 0 && (
+                <div className="recipe-ingredients">
+                  <h2>Ingredients</h2>
+                  <ul>
+                    {parsedContent.ingredients.map((ingredient, index) => (
                       <li key={index}>{ingredient}</li>
-                    ))
-                  ) : (
-                    <li>No ingredients listed</li>
-                  )}
-                </ul>
-              </div>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {parsedContent.instructions && (
                 <div className="recipe-instructions">
@@ -113,7 +130,16 @@ function RecipeDetail() {
                   <p>{parsedContent.instructions}</p>
                 </div>
               )}
+
+              {(!parsedContent.ingredients || parsedContent.ingredients.length === 0) && !parsedContent.instructions && (
+                <div className="recipe-instructions">
+                  <h2>Full Recipe</h2>
+                  <p>{recipe.recipe_content}</p>
+                </div>
+              )}
             </>
+          ) : (
+            <p>No recipe details available</p>
           )}
 
           <button onClick={handleDelete} className="delete-btn">Delete Recipe</button>

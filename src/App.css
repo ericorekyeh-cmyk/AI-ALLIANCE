@@ -10,11 +10,11 @@ body {
   line-height: 1.5;
   font-weight: 400;
 
-  /* Gold, White, Green Color Scheme */
-  --gold: #D4AF37;
-  --green: #2D5016;
-  --green-light: #4CAF50;
-  --green-dark: #1a3a0f;
+  /* Gold, White, Gold Color Scheme */
+  --gold: #B8860B;
+  --green: #8B6914;
+  --green-light: #E6C850;
+  --green-dark: #6B5410;
   --white: #FFFFFF;
   --gray-light: #F5F5F5;
   --gray-dark: #333333;
