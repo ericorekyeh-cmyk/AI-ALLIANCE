@@ -30,6 +30,18 @@ function RecipeDetail() {
     setLoading(false);
   };
 
+  const parseRecipeContent = (content) => {
+    if (!content) return { ingredients: [], instructions: '' };
+
+    const ingredientsMatch = content.match(/Ingredients?:([\s\S]*?)(?:Method|Instructions|$)/i);
+    const instructionsMatch = content.match(/(?:Method|Instructions):([\s\S]*?)$/i);
+
+    const ingredients = ingredientsMatch ? ingredientsMatch[1].trim().split('\n').filter(line => line.trim()) : [];
+    const instructions = instructionsMatch ? instructionsMatch[1].trim() : '';
+
+    return { ingredients, instructions };
+  };
+
   const handleDelete = async () => {
     if (!window.confirm('Delete this recipe?')) {
       return;
@@ -77,10 +89,23 @@ function RecipeDetail() {
           </div>
 
           {recipe.recipe_content && (
-            <div className="recipe-detail-instructions">
-              <h2>Recipe</h2>
-              <p>{recipe.recipe_content}</p>
-            </div>
+            <>
+              <div className="recipe-ingredients">
+                <h2>Ingredients</h2>
+                <ul>
+                  {parseRecipeContent(recipe.recipe_content).ingredients.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {parseRecipeContent(recipe.recipe_content).instructions && (
+                <div className="recipe-instructions">
+                  <h2>Instructions</h2>
+                  <p>{parseRecipeContent(recipe.recipe_content).instructions}</p>
+                </div>
+              )}
+            </>
           )}
 
           <button onClick={handleDelete} className="delete-btn">Delete Recipe</button>
