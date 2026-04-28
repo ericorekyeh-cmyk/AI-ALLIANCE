@@ -54,6 +54,8 @@ function AddRecipe({ onRecipeAdded }) {
       // Combine ingredients and instructions with proper formatting
       const recipeContent = `Ingredients:\n${ingredients}\n\nInstructions:\n${instructions}`;
 
+      const { data: { user } } = await supabase.auth.getUser();
+
       const { error } = await supabase
         .from('recipes')
         .insert([{ 
@@ -61,7 +63,8 @@ function AddRecipe({ onRecipeAdded }) {
           description, 
           cuisine_type: cuisineType,
           image_url: imageUrl,
-          recipe_content: recipeContent
+          recipe_content: recipeContent,
+          user_id: user?.id
         }]);
 
       if (error) {

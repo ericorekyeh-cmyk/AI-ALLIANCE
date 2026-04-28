@@ -8,10 +8,29 @@ function RecipeDetail() {
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     fetchRecipe();
+    getUser();
   }, [id]);
+
+  useEffect(() => {
+    // Check ownership when both recipe and user are available
+    if (recipe && user) {
+      setIsOwner(recipe.user_id === user.id);
+    }
+  }, [recipe, user]);
+
+  const getUser = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    } catch (error) {
+      console.error('Error getting user:', error);
+    }
+  };
 
   const fetchRecipe = async () => {
     const { data, error } = await supabase
@@ -66,11 +85,21 @@ function RecipeDetail() {
   }, [recipe?.recipe_content]);
 
   const handleDelete = async () => {
+    if (!isOwner) {
+      alert('You can only delete your own recipes');
+      return;
+    }
+
     if (!window.confirm('Delete this recipe?')) {
       return;
     }
 
-    const { error } = await supabase.from('recipes').delete().eq('id', id);
+    const { error } = await supabase
+      .from('recipes')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
     if (error) {
       console.error('Delete recipe error:', error);
       alert('Error deleting recipe');
@@ -142,7 +171,9 @@ function RecipeDetail() {
             <p>No recipe details available</p>
           )}
 
-          <button onClick={handleDelete} className="delete-btn">Delete Recipe</button>
+          {isOwner && (
+            <button onClick={handleDelete} className="delete-btn">Delete Recipe</button>
+          )}
         </div>
       </div>
     </div>

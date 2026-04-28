@@ -8,9 +8,11 @@ import RecipeDetail from './RecipeDetail';
 import Navigation from './Navigation';
 import RecipesPage from './RecipesPage';
 import BlogPage from './BlogPage';
+import Login from './Login';
+import SignUp from './SignUp';
 import './App.css';
 
-function AppContent() {
+function AppContent({ user, onLogout }) {
   const [recipes, setRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -30,13 +32,24 @@ function AppContent() {
   };
 
   const handleDeleteRecipe = async (id) => {
+    if (!user) {
+      alert('You must be logged in to delete recipes');
+      return;
+    }
+
     if (!window.confirm('Delete this recipe?')) {
       return;
     }
 
-    const { error } = await supabase.from('recipes').delete().eq('id', id);
+    const { error } = await supabase
+      .from('recipes')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
     if (error) {
       console.error('Delete recipe error:', error);
+      alert('Error: You can only delete your own recipes');
       return;
     }
 
@@ -56,7 +69,7 @@ function AppContent() {
     <>
       <div className="container">
         <h1>Online Recipe Sharing Platform</h1>
-        <Navigation />
+        <Navigation user={user} onLogout={onLogout} />
 
         <FeaturedRecipes />
 
@@ -88,13 +101,15 @@ function AppContent() {
                     >
                       View Recipe
                     </button>
-                    <button
-                      className="delete-btn"
-                      type="button"
-                      onClick={() => handleDeleteRecipe(recipe.id)}
-                    >
-                      Delete
-                    </button>
+                    {user && user.id === recipe.user_id && (
+                      <button
+                        className="delete-btn"
+                        type="button"
+                        onClick={() => handleDeleteRecipe(recipe.id)}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </div>
               ))
@@ -109,14 +124,60 @@ function AppContent() {
 }
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const getSession = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        setUser(session?.user || null);
+      } catch (error) {
+        console.error('Error getting session:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Logout error:', error);
+    } else {
+      setUser(null);
+    }
+  };
+
+  if (loading) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Loading...</div>;
+  }
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AppContent />} />
+        <Route path="/" element={<AppContent user={user} onLogout={handleLogout} />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path="/add-recipe" element={<AddRecipePage onRecipeAdded={() => {}} />} />
+        <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>
   );
