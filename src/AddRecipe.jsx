@@ -6,7 +6,8 @@ function AddRecipe({ onRecipeAdded }) {
   const [description, setDescription] = useState('');
   const [cuisineType, setCuisineType] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [recipeContent, setRecipeContent] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [instructions, setInstructions] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   const handleImageChange = (event) => {
@@ -50,6 +51,9 @@ function AddRecipe({ onRecipeAdded }) {
         imageUrl = await uploadImage(imageFile);
       }
 
+      // Combine ingredients and instructions with proper formatting
+      const recipeContent = `Ingredients:\n${ingredients}\n\nInstructions:\n${instructions}`;
+
       const { error } = await supabase
         .from('recipes')
         .insert([{ 
@@ -71,7 +75,8 @@ function AddRecipe({ onRecipeAdded }) {
       setDescription('');
       setCuisineType('');
       setImageFile(null);
-      setRecipeContent('');
+      setIngredients('');
+      setInstructions('');
       setIsUploading(false);
       onRecipeAdded();
     } catch (error) {
@@ -125,12 +130,24 @@ function AddRecipe({ onRecipeAdded }) {
       </label>
 
       <label>
-        Recipe Instructions
+        Ingredients
         <textarea
-          placeholder="Type your recipe instructions here... (ingredients, steps, cooking time, etc.)"
-          value={recipeContent}
-          onChange={(event) => setRecipeContent(event.target.value)}
+          placeholder="Enter ingredients (one per line)"
+          value={ingredients}
+          onChange={(event) => setIngredients(event.target.value)}
           className="recipe-textarea"
+          required
+        />
+      </label>
+
+      <label>
+        Instructions/Method
+        <textarea
+          placeholder="Enter cooking instructions and methods..."
+          value={instructions}
+          onChange={(event) => setInstructions(event.target.value)}
+          className="recipe-textarea"
+          required
         />
       </label>
 
