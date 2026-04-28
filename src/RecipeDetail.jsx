@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import './RecipeDetail.css';
@@ -41,6 +41,10 @@ function RecipeDetail() {
 
     return { ingredients, instructions };
   };
+
+  const parsedContent = useMemo(() => {
+    return recipe?.recipe_content ? parseRecipeContent(recipe.recipe_content) : { ingredients: [], instructions: '' };
+  }, [recipe?.recipe_content]);
 
   const handleDelete = async () => {
     if (!window.confirm('Delete this recipe?')) {
@@ -93,16 +97,20 @@ function RecipeDetail() {
               <div className="recipe-ingredients">
                 <h2>Ingredients</h2>
                 <ul>
-                  {parseRecipeContent(recipe.recipe_content).ingredients.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li>
-                  ))}
+                  {parsedContent.ingredients.length > 0 ? (
+                    parsedContent.ingredients.map((ingredient, index) => (
+                      <li key={index}>{ingredient}</li>
+                    ))
+                  ) : (
+                    <li>No ingredients listed</li>
+                  )}
                 </ul>
               </div>
 
-              {parseRecipeContent(recipe.recipe_content).instructions && (
+              {parsedContent.instructions && (
                 <div className="recipe-instructions">
                   <h2>Instructions</h2>
-                  <p>{parseRecipeContent(recipe.recipe_content).instructions}</p>
+                  <p>{parsedContent.instructions}</p>
                 </div>
               )}
             </>
