@@ -6,7 +6,7 @@ import AddRecipePage from './AddRecipePage';
 import FeaturedRecipes from './FeaturedRecipes';
 import RecipeDetail from './RecipeDetail';
 import Navigation from './Navigation';
-import RecipesPage from './RecipesPage';
+import About from './About';
 import BlogPage from './BlogPage';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -176,7 +176,7 @@ function App() {
       <Routes>
         {/* Main Pages */}
         <Route path="/" element={<AppContent user={user} onLogout={handleLogout} />} />
-        <Route path="/recipes" element={<RecipesPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
         
         {/* Auth & User Pages */}

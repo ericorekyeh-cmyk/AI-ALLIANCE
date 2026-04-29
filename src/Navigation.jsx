@@ -15,14 +15,17 @@ function Navigation({ user, onLogout }) {
             HOME
           </Link>
         </li>
+        
+        {/* Swapped RECIPES for ABOUT right here */}
         <li className="nav-item">
           <Link 
-            to="/recipes" 
-            className={`nav-link ${location.pathname === '/recipes' ? 'active' : ''}`}
+            to="/about" 
+            className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
           >
-            RECIPES
+            ABOUT
           </Link>
         </li>
+
         <li className="nav-item">
           <Link 
             to="/blog" 
