@@ -330,3 +330,28 @@ body {
   border-color: var(--gold);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
+/* --- DARK MODE STYLES --- */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+/* Make sure links and specific text adapt */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode p {
+  color: #f1f1f1 !important;
+}
+
+/* Darken the backgrounds of your cards and navigation */
+body.dark-mode .blog-card,
+body.dark-mode .page-placeholder,
+body.dark-mode .navigation {
+  background-color: #1e1e1e !important;
+  border-color: #333 !important;
+}

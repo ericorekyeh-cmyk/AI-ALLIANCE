@@ -14,8 +14,8 @@ import BlogDetail from './BlogDetail';
 import './App.css';
 import CreatePost from './CreatePost';
 
-
-function AppContent({ user, onLogout }) {
+// --- ADDED isDarkMode and toggleDarkMode to props ---
+function AppContent({ user, onLogout, isDarkMode, toggleDarkMode }) {
   const [recipes, setRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -72,7 +72,14 @@ function AppContent({ user, onLogout }) {
     <>
       <div className="container">
         <h1>Regent Recipes</h1>
-        <Navigation user={user} onLogout={onLogout} />
+        
+        {/* --- PASSED dark mode props into Navigation --- */}
+        <Navigation 
+          user={user} 
+          onLogout={onLogout} 
+          isDarkMode={isDarkMode} 
+          toggleDarkMode={toggleDarkMode} 
+        />
 
         <FeaturedRecipes />
 
@@ -122,16 +129,34 @@ function AppContent({ user, onLogout }) {
           </div>
         </div>
       </div>
-      </>
-    );
+    </>
+  );
 }
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // --- 1. DARK MODE STATE ---
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('darkMode') === 'true';
+  });
+
+  // --- 2. DARK MODE EFFECT (Applies CSS class to the body) ---
   useEffect(() => {
-    // Check if user is already logged in
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }, [isDarkMode]);
+
+  // --- 3. DARK MODE TOGGLE FUNCTION ---
+  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+
+  useEffect(() => {
     const getSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -146,7 +171,6 @@ function App() {
 
     getSession();
 
-    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setUser(session?.user || null);
@@ -174,17 +198,25 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Main Pages */}
-        <Route path="/" element={<AppContent user={user} onLogout={handleLogout} />} />
+        {/* --- PASSED props to AppContent --- */}
+        <Route 
+          path="/" 
+          element={
+            <AppContent 
+              user={user} 
+              onLogout={handleLogout} 
+              isDarkMode={isDarkMode} 
+              toggleDarkMode={toggleDarkMode} 
+            />
+          } 
+        />
         <Route path="/about" element={<About />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
         
-        {/* Auth & User Pages */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
         
-        {/* Blog Pages (Order is critical here!) */}
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/new" element={<CreatePost />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
