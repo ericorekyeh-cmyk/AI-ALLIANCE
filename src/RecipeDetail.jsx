@@ -36,10 +36,10 @@ function RecipeDetail() {
       .from('recipes')
       .select(`
         *,
-        recipe_ingredients!recipe_ingredients_recipe_id_fkey (
+        recipe_ingredients (
           amount,
           unit,
-          ingredients!recipe_ingredients_ingredient_id_fkey (
+          ingredients (
             name
           )
         )
@@ -48,7 +48,9 @@ function RecipeDetail() {
       .single();
 
     if (error) {
-      console.error('Fetch recipe error:', error.message || error);
+      // This will help us see exactly what's wrong if it fails again
+      console.error('Error Code:', error.code);
+      console.error('Error Message:', error.message);
       setLoading(false);
       return;
     }
