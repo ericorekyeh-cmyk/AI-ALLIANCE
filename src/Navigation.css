@@ -1,10 +1,10 @@
 /* Navigation Menu */
 .navigation {
-  background: linear-gradient(135deg, var(--gold) 0%, #E6C850 100%);
-  border-bottom: 3px solid var(--green);
+  background: var(--white);
+  border-bottom: 3px solid var(--gold);
   margin-bottom: 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.08);
 }
 
 .nav-list {

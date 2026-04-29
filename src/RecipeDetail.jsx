@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import './RecipeDetail.css';
@@ -17,7 +17,6 @@ function RecipeDetail() {
   }, [id]);
 
   useEffect(() => {
-    // Check ownership when both recipe and user are available
     if (recipe && user) {
       setIsOwner(recipe.user_id === user.id);
     }
@@ -33,9 +32,19 @@ function RecipeDetail() {
   };
 
   const fetchRecipe = async () => {
+    // 🔥 THE UPGRADE: We now tell Supabase to "Join" the ingredients!
     const { data, error } = await supabase
       .from('recipes')
-      .select('*')
+      .select(`
+        *,
+        recipe_ingredients (
+          amount,
+          unit,
+          ingredients (
+            name
+          )
+        )
+      `)
       .eq('id', id)
       .single();
 
@@ -49,56 +58,19 @@ function RecipeDetail() {
     setLoading(false);
   };
 
-  const parseRecipeContent = (content) => {
-    if (!content) return { ingredients: [], instructions: '' };
-
-    // Try to parse structured content first
-    const ingredientsMatch = content.match(/Ingredients?:?\s*([\s\S]*?)(?:Method|Instructions|Directions|Steps|$)/i);
-    const instructionsMatch = content.match(/(?:Method|Instructions|Directions|Steps):?\s*([\s\S]*?)$/i);
-
-    let ingredients = [];
-    let instructions = '';
-
-    if (ingredientsMatch) {
-      const ingredientText = ingredientsMatch[1].trim();
-      // Split by newlines and filter empty lines and lines that don't start with ingredient markers
-      ingredients = ingredientText
-        .split('\n')
-        .map(line => line.trim())
-        .filter(line => line && line.length > 0 && !line.match(/^(Method|Instructions|Directions|Steps):/i))
-        .slice(0, 50); // Limit to 50 ingredients
-    }
-
-    if (instructionsMatch) {
-      instructions = instructionsMatch[1].trim();
-    }
-
-    console.log('Raw recipe content:', content);
-    console.log('Parsed ingredients count:', ingredients.length);
-    console.log('Has instructions:', !!instructions);
-
-    return { ingredients, instructions };
-  };
-
-  const parsedContent = useMemo(() => {
-    return recipe?.recipe_content ? parseRecipeContent(recipe.recipe_content) : { ingredients: [], instructions: '' };
-  }, [recipe?.recipe_content]);
-
   const handleDelete = async () => {
     if (!isOwner) {
       alert('You can only delete your own recipes');
       return;
     }
 
-    if (!window.confirm('Delete this recipe?')) {
-      return;
-    }
+    if (!window.confirm('Delete this recipe?')) return;
 
     const { error } = await supabase
       .from('recipes')
       .delete()
       .eq('id', id)
-      .eq('user_id', user.id);
+      .eq('user_id', user.id); // Extra security check!
 
     if (error) {
       console.error('Delete recipe error:', error);
@@ -109,9 +81,7 @@ function RecipeDetail() {
     navigate('/');
   };
 
-  if (loading) {
-    return <div className="recipe-detail-container"><p>Loading...</p></div>;
-  }
+  if (loading) return <div className="recipe-detail-container"><p>Loading...</p></div>;
 
   if (!recipe) {
     return (
@@ -140,35 +110,25 @@ function RecipeDetail() {
             <p>{recipe.description}</p>
           </div>
 
-          {recipe.recipe_content ? (
-            <>
-              {parsedContent.ingredients && parsedContent.ingredients.length > 0 && (
-                <div className="recipe-ingredients">
-                  <h2>Ingredients</h2>
-                  <ul>
-                    {parsedContent.ingredients.map((ingredient, index) => (
-                      <li key={index}>{ingredient}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+          {/* 🔥 THE UPGRADE: Mapping directly from the database objects */}
+          {recipe.recipe_ingredients && recipe.recipe_ingredients.length > 0 && (
+            <div className="recipe-ingredients">
+              <h2>Ingredients</h2>
+              <ul>
+                {recipe.recipe_ingredients.map((item, index) => (
+                  <li key={index}>
+                    <strong>{item.amount} {item.unit}</strong> - {item.ingredients.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-              {parsedContent.instructions && (
-                <div className="recipe-instructions">
-                  <h2>Instructions</h2>
-                  <p>{parsedContent.instructions}</p>
-                </div>
-              )}
-
-              {(!parsedContent.ingredients || parsedContent.ingredients.length === 0) && !parsedContent.instructions && (
-                <div className="recipe-instructions">
-                  <h2>Full Recipe</h2>
-                  <p>{recipe.recipe_content}</p>
-                </div>
-              )}
-            </>
-          ) : (
-            <p>No recipe details available</p>
+          {recipe.instructions && (
+            <div className="recipe-instructions">
+              <h2>Instructions</h2>
+              <p>{recipe.instructions}</p>
+            </div>
           )}
 
           {isOwner && (
