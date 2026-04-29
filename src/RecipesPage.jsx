@@ -35,7 +35,7 @@ function RecipesPage() {
 
   return (
     <div className="container">
-      <h1>Online Recipe Sharing Platform</h1>
+      <h1>Regent Recipes</h1>
       <Navigation />
       
       <div className="recipes-page">
