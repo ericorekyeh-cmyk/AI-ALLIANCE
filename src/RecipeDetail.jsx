@@ -32,15 +32,14 @@ function RecipeDetail() {
   };
 
   const fetchRecipe = async () => {
-    // 🔥 THE UPGRADE: We now tell Supabase to "Join" the ingredients!
     const { data, error } = await supabase
       .from('recipes')
       .select(`
         *,
-        recipe_ingredients (
+        recipe_ingredients!recipe_ingredients_recipe_id_fkey (
           amount,
           unit,
-          ingredients (
+          ingredients!recipe_ingredients_ingredient_id_fkey (
             name
           )
         )
@@ -49,7 +48,7 @@ function RecipeDetail() {
       .single();
 
     if (error) {
-      console.error('Fetch recipe error:', error);
+      console.error('Fetch recipe error:', error.message || error);
       setLoading(false);
       return;
     }
