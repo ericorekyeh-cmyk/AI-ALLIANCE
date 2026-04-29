@@ -12,6 +12,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import BlogDetail from './BlogDetail';
 import './App.css';
+import CreatePost from './CreatePost';
 
 
 function AppContent({ user, onLogout }) {
@@ -180,6 +181,12 @@ function App() {
         <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        {/* Other routes... */}
+        <Route path="/blog" element={<BlogPage />} />
+        {/* NEW ROUTE GOES HERE (Above the :id route) */}
+        <Route path="/blog/new" element={<CreatePost />} />
+        {/* The dynamic ID route must be underneath */}
         <Route path="/blog/:id" element={<BlogDetail />} />
       </Routes>
     </Router>

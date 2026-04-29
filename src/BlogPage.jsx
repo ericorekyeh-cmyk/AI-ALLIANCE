@@ -60,13 +60,22 @@ function BlogPage() {
                  style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
                 >     
                   Read Article
-                </Link><button className="read-more-btn">
-                  Read Article</button>
+                </Link>
               </div>
             ))}
           </div>
         )}
+        // Find your <h2>Latest Food & Cooking Articles</h2> and add this right below it:
 
+        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+          <Link 
+            to="/blog/new" 
+            style={{ background: '#2d5a27', color: 'white', padding: '10px 20px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold' }}
+        >
+          + Write New Post
+         </Link>
+      </div>
+      
         <div style={{ marginTop: '30px' }}>
           <Link to="/" className="back-link">← Back to Home</Link>
         </div>
