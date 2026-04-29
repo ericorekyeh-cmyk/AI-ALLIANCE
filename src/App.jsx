@@ -10,7 +10,9 @@ import RecipesPage from './RecipesPage';
 import BlogPage from './BlogPage';
 import Login from './Login';
 import SignUp from './SignUp';
+import BlogDetail from './BlogDetail';
 import './App.css';
+
 
 function AppContent({ user, onLogout }) {
   const [recipes, setRecipes] = useState([]);
@@ -178,6 +180,7 @@ function App() {
         <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
       </Routes>
     </Router>
   );

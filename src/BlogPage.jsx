@@ -54,7 +54,14 @@ function BlogPage() {
                 <p>{post.excerpt}</p>
                 
                 {/* We can build a /blog/:id route for this next! */}
-                <button className="read-more-btn">Read Article</button>
+                <Link 
+                to={`/blog/${post.id}`} 
+                 className="read-more-btn" 
+                 style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
+                >     
+                  Read Article
+                </Link><button className="read-more-btn">
+                  Read Article</button>
               </div>
             ))}
           </div>
