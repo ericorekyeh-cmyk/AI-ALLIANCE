@@ -174,19 +174,19 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Main Pages */}
         <Route path="/" element={<AppContent user={user} onLogout={handleLogout} />} />
-        <Route path="/recipe/:id" element={<RecipeDetail />} />
         <Route path="/recipes" element={<RecipesPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
+        
+        {/* Auth & User Pages */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/blog/:id" element={<BlogDetail />} />
-        {/* Other routes... */}
+        <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
+        
+        {/* Blog Pages (Order is critical here!) */}
         <Route path="/blog" element={<BlogPage />} />
-        {/* NEW ROUTE GOES HERE (Above the :id route) */}
         <Route path="/blog/new" element={<CreatePost />} />
-        {/* The dynamic ID route must be underneath */}
         <Route path="/blog/:id" element={<BlogDetail />} />
       </Routes>
     </Router>
