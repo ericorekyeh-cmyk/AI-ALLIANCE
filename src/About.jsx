@@ -41,6 +41,22 @@ function About() {
       
     </div>
   );
+
+  <Link 
+  to="/" 
+  style={{ 
+    display: 'inline-block', 
+    padding: '10px 20px', 
+    backgroundColor: '#2d5a27', 
+    color: 'white', 
+    textDecoration: 'none', 
+    borderRadius: '6px',
+    fontWeight: 'bold',
+    marginTop: '20px'
+  }}
+>
+  ← Back to Home
+</Link>
 }
 
 export default About;
