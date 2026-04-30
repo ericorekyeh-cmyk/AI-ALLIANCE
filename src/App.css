@@ -388,3 +388,31 @@ body.dark-mode .navigation .logout-btn {
 body.dark-mode .navigation .nav-link.active {
   color: #cccccc !important; 
 }
+
+/* --- DARK MODE OVERRIDES FOR FEATURED RECIPES --- */
+
+/* 1. Remove the large white background wrapper behind the featured cards */
+body.dark-mode .featured-recipes, 
+body.dark-mode .featured-container,
+body.dark-mode .featured-section {
+  background-color: transparent !important;
+  box-shadow: none !important; /* Removes that light shadow outline */
+}
+
+/* 2. Turn the individual featured cards dark */
+body.dark-mode .featured-card,
+body.dark-mode .featured-recipe-card {
+  background-color: #1e1e1e !important;
+  border: 1px solid #333 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important; /* Makes the shadow darker for dark mode */
+}
+
+/* 3. Ensure the text inside is white/light gray */
+body.dark-mode .featured-card h2,
+body.dark-mode .featured-card h3,
+body.dark-mode .featured-card p,
+body.dark-mode .featured-recipe-card h2,
+body.dark-mode .featured-recipe-card h3,
+body.dark-mode .featured-recipe-card p {
+  color: #f1f1f1 !important;
+}
