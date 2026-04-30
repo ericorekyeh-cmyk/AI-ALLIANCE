@@ -13,6 +13,7 @@ import SignUp from './SignUp';
 import BlogDetail from './BlogDetail';
 import './App.css';
 import CreatePost from './CreatePost';
+import ForgotPassword from './ForgotPassword';
 
 // --- ADDED isDarkMode and toggleDarkMode to props ---
 function AppContent({ user, onLogout, isDarkMode, toggleDarkMode }) {
@@ -216,6 +217,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/add-recipe" element={user ? <AddRecipePage onRecipeAdded={() => {}} /> : <Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/new" element={<CreatePost />} />
