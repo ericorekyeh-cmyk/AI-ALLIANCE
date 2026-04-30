@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
-function Navigation({ user, onLogout }) {
+function Navigation({ user, onLogout, isDarkMode, toggleDarkMode }) {
   const location = useLocation();
 
   return (
@@ -43,6 +43,23 @@ function Navigation({ user, onLogout }) {
           </Link>
         </li>
         <li className="nav-item auth-item">
+          {/* --- ADDED THE DARK MODE TOGGLE HERE --- */}
+          <button 
+            onClick={toggleDarkMode} 
+            style={{ 
+              background: 'none', 
+              border: '1px solid #ccc', 
+              borderRadius: '50%', 
+              cursor: 'pointer', 
+              padding: '5px 8px', 
+              marginRight: '15px', 
+              fontSize: '1.2rem'
+            }}
+            title="Toggle Dark Mode"
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+
           {user ? (
             <>
               <span className="user-email">{user.email}</span>
