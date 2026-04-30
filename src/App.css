@@ -442,3 +442,14 @@ body.dark-mode .recipe-instructions h2,
 body.dark-mode .recipe-instructions p {
   color: #f1f1f1 !important;
 }
+
+.forgot-password-link {
+  text-align: right;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.forgot-password-link a {
+  color: #ff6b6b; /* Or your theme color */
+  text-decoration: none;
+}

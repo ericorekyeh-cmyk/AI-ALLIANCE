@@ -16,7 +16,7 @@ function Login() {
     setError('');
 
     try {
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
+      const { data, authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -65,6 +65,11 @@ function Login() {
               required
             />
           </label>
+
+          {/* --- ADDED FORGOT PASSWORD LINK --- */}
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
 
           <button type="submit" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
