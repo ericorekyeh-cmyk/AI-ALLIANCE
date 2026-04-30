@@ -416,3 +416,30 @@ body.dark-mode .featured-recipe-card h3,
 body.dark-mode .featured-recipe-card p {
   color: #f1f1f1 !important;
 }
+/* --- DARK MODE OVERRIDES FOR RECIPE DETAIL PAGE --- */
+
+/* 1. Remove the large white background wrapper on the detail page */
+body.dark-mode .recipe-detail-container,
+body.dark-mode .recipe-detail,
+body.dark-mode .recipe-view {
+  background-color: transparent !important;
+}
+
+/* 2. Turn the inner light-gray boxes (Description, Ingredients, etc.) dark */
+body.dark-mode .recipe-section,
+body.dark-mode .detail-box,
+body.dark-mode .info-box,
+body.dark-mode .recipe-info-card {
+  background-color: #1e1e1e !important;
+  border-left-color: #d4af37 !important; /* Keeps your nice gold accent line! */
+}
+
+/* 3. Ensure all text inside the detail page is readable */
+body.dark-mode .recipe-section h2,
+body.dark-mode .recipe-section h3,
+body.dark-mode .recipe-section p,
+body.dark-mode .recipe-section li,
+body.dark-mode .recipe-detail-container p,
+body.dark-mode .recipe-detail-container li {
+  color: #f1f1f1 !important;
+}
