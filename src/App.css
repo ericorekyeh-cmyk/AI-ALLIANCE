@@ -453,3 +453,19 @@ body.dark-mode .recipe-instructions p {
   color: #ff6b6b; /* Or your theme color */
   text-decoration: none;
 }
+
+/* Darken the main 'Login' title */
+.auth-card h1 {
+  color: #8B6508; /* Using a darker version of your gold theme */
+  font-weight: bold;
+}
+
+/* Darken the 'Don't have an account?' text */
+.auth-link {
+  color: #444444 !important; /* A dark charcoal for readability */
+}
+
+/* Optional: Make placeholders a bit darker too */
+input::placeholder {
+  color: #757575;
+}
