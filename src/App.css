@@ -416,30 +416,29 @@ body.dark-mode .featured-recipe-card h3,
 body.dark-mode .featured-recipe-card p {
   color: #f1f1f1 !important;
 }
-/* --- DARK MODE OVERRIDES FOR RECIPE DETAIL PAGE --- */
+/* --- EXACT DARK MODE OVERRIDES FOR RECIPE DETAIL PAGE --- */
 
-/* 1. Remove the large white background wrapper on the detail page */
-body.dark-mode .recipe-detail-container,
-body.dark-mode .recipe-detail,
-body.dark-mode .recipe-view {
+/* 1. Turn the main background card dark (or transparent to let the body color show) */
+body.dark-mode .recipe-detail-card {
   background-color: transparent !important;
 }
 
-/* 2. Turn the inner light-gray boxes (Description, Ingredients, etc.) dark */
-body.dark-mode .recipe-section,
-body.dark-mode .detail-box,
-body.dark-mode .info-box,
-body.dark-mode .recipe-info-card {
+/* 2. Target your specific inner boxes (Description, Ingredients, Instructions) */
+body.dark-mode .recipe-detail-description,
+body.dark-mode .recipe-ingredients,
+body.dark-mode .recipe-instructions {
   background-color: #1e1e1e !important;
-  border-left-color: #d4af37 !important; /* Keeps your nice gold accent line! */
+  border-left-color: #d4af37 !important; /* Keeps your elegant gold accent line */
 }
 
-/* 3. Ensure all text inside the detail page is readable */
-body.dark-mode .recipe-section h2,
-body.dark-mode .recipe-section h3,
-body.dark-mode .recipe-section p,
-body.dark-mode .recipe-section li,
-body.dark-mode .recipe-detail-container p,
-body.dark-mode .recipe-detail-container li {
+/* 3. Force all text inside those specific boxes to be white */
+body.dark-mode .recipe-detail-content h1,
+body.dark-mode .recipe-detail-description h2,
+body.dark-mode .recipe-detail-description p,
+body.dark-mode .recipe-ingredients h2,
+body.dark-mode .recipe-ingredients li,
+body.dark-mode .recipe-ingredients strong,
+body.dark-mode .recipe-instructions h2,
+body.dark-mode .recipe-instructions p {
   color: #f1f1f1 !important;
 }
