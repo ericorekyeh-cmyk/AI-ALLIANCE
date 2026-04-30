@@ -355,3 +355,36 @@ body.dark-mode .navigation {
   background-color: #1e1e1e !important;
   border-color: #333 !important;
 }
+/* --- DARK MODE OVERRIDES FOR SPECIFIC COMPONENTS --- */
+
+/* 1. Remove the large white background wrapper */
+body.dark-mode .container,
+body.dark-mode .additional-content,
+body.dark-mode .recipe-grid {
+  background-color: transparent !important;
+}
+
+/* 2. Fix the bottom half of the recipe cards so they aren't white */
+body.dark-mode .recipe-card,
+body.dark-mode .blog-card {
+  background-color: #1e1e1e !important;
+  border-color: #333 !important;
+}
+
+/* 3. Make sure the text inside the dark cards is actually visible */
+body.dark-mode .recipe-card h3,
+body.dark-mode .recipe-card p,
+body.dark-mode .recipe-card .cuisine-tag {
+  color: #f1f1f1 !important;
+}
+
+/* 4. Force the navigation bar text to be white instead of gold */
+body.dark-mode .navigation .nav-link,
+body.dark-mode .navigation .logout-btn {
+  color: #ffffff !important;
+}
+
+/* Optional: Keep the active tab slightly dimmed or a different color so users know where they are */
+body.dark-mode .navigation .nav-link.active {
+  color: #cccccc !important; 
+}
